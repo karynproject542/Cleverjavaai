@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CleverjavaAI - Kecerdasan Buatan dengan Sentuhan Jawa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --jawa-brown: #8B4513;
+            --jawa-gold: #D4AF37;
+            --jawa-cream: #F5F5DC;
+            --jawa-green: #228B22;
+            --jawa-dark: #654321;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--jawa-cream) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .jawa-border {
+            border: 2px solid var(--jawa-gold);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+        }
+        
+        .batik-pattern {
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(212, 175, 55, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75px 75px, rgba(139, 69, 19, 0.1) 2px, transparent 2px);
+            background-size: 100px 100px;
+        }
+        
+        .logo-jawa {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-jawa:hover {
+            transform: scale(1.05);
+        }
+        
+        .jawa-shadow {
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--jawa-brown), var(--jawa-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-jawa {
+            background: linear-gradient(135deg, var(--jawa-brown), var(--jawa-dark));
+            transition: all 0.3s ease;
+        }
+        
+        .btn-jawa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Chat Interface Styles */
+        .chat-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .chat-window {
+            background: linear-gradient(135deg, var(--jawa-cream) 0%, #ffffff 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.3);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--jawa-brown), var(--jawa-dark));
+            padding: 20px;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .message {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, var(--jawa-brown), var(--jawa-dark));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background: var(--jawa-cream);
+            color: var(--jawa-dark);
+            border: 1px solid var(--jawa-gold);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            border-top: 2px solid var(--jawa-gold);
+            padding: 20px;
+            background: white;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: var(--jawa-cream);
+            border: 1px solid var(--jawa-gold);
+            border-radius: 18px;
+            max-width: 80px;
+            margin-bottom: 15px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--jawa-gold);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen batik-pattern">
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Header -->
+        <header class="bg-white jawa-shadow">
+            <div class="container mx-auto px-4 py-4">
+                <nav class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-3">
+                        <div class="logo-jawa">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/56c69d10-6983-4600-8dd2-3349c3875ba0.png" 
+                                 alt="Logo CleverjavaAI dengan desain wayang kulit modern berwarna coklat dan emas dengan ornament tradisional Jawa Tengah" 
+                                 class="w-12 h-12 rounded-lg jawa-border"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iOCIgZmlsbD0iIzhCNDUxMyIvPgo8cGF0aCBkPSJNMzAgMTVDMjUgMTUgMjAgMTggMjAgMjVDMjAgMzIgMjUgMzUgMzAgMzVDMzUgMzUgNDAgMzIgNDAgMjVDNDAgMTggMzUgMTUgMzAgMTVaTTMwIDQwQzIyIDQwIDE1IDM1IDE1IDI4QzE1IDIxIDIyIDE2IDMwIDE2QzM4IDE2IDQ1IDIxIDQ1IDI4QzQ1IDM1IDM4IDQwIDMwIDQwWiIgZmlsbD0iI0Q0QUYzNyIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjI4IiByPSI1IiBfillPSJ3aGl0ZSIvPgo8L3N2Zz4K'">
+                        </div>
+                        <h1 class="text-2xl font-bold gradient-text font-playfair">
+                            Clever<span class="text-jawa-brown">java</span><span class="text-jawa-gold">AI</span>
+                        </h1>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="hidden md:flex space-x-8">
+                        <a href="#home" class="text-jawa-brown hover:text-jawa-gold font-medium">Beranda</a>
+                        <a href="#features" class="text-jawa-brown hover:text-jawa-gold font-medium">Fitur</a>
+                        <a href="#about" class="text-jawa-brown hover:text-jawa-gold font-medium">Tentang</a>
+                        <a href="#contact" class="text-jawa-brown hover:text-jawa-gold font-medium">Kontak</a>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden text-jawa-brown">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="home" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-playfair">
+                            <span class="text-jawa-brown">Kecerdasan Buatan</span><br>
+                            <span class="text-jawa-gold">Berbudaya Jawa</span>
+                        </h2>
+                        <p class="text-gray-700 text-lg mb-8 leading-relaxed">
+                            CleverjavaAI menghadirkan solusi kecerdasan buatan modern yang terinspirasi dari kearifan lokal dan kebudayaan Jawa Tengah. Inovasi teknologi dengan sentuhan tradisi.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="openChat()" class="btn-jawa text-white px-8 py-3 rounded-full font-semibold">
+                                Mulai Sekarang
+                            </button>
+                            <button class="border-2 border-jawa-brown text-jawa-brown px-8 py-3 rounded-full font-semibold hover:bg-jawa-brown hover:text-white transition-colors">
+                                Pelajari Lebih Lanjut
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="jawa-border rounded-2xl overflow-hidden jawa-shadow">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/13193a92-9d49-43fb-97eb-9f001deb2955.png" 
+                                 alt="Ilustrasi modern AI Jawa dengan wayang digital dan pattern batik dengan teknologi neural network background"
+                                 class="w-full h-auto"
+                                 onerror="this.style.backgroundColor='#F5F5DC'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 font-playfair gradient-text">Fitur Unggulan</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Teknologi canggih yang menghormati warisan budaya Jawa</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="feature-card bg-jawa-cream p-8 rounded-2xl jawa-border text-center">
+                        <div class="w-16 h-16 bg-jawa-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-brain text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-jawa-brown mb-4">AI Berbasis Kearifan Lokal</h3>
+                        <p class="text-gray-700">Algoritma yang memahami konteks budaya Jawa dan nilai-nilai lokal dalam setiap solusi</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="feature-card bg-jawa-cream p-8 rounded-2xl jawa-border text-center">
+                        <div class="w-16 h-16 bg-jawa-brown rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-language text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-jawa-brown mb-4">Pemrosesan Bahasa Jawa</h3>
+                        <p class="text-gray-700">Mendukung pemahaman dan generasi teks dalam bahasa Jawa dengan dialek yang akurat</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature-card bg-jawa-cream p-8 rounded-2xl jawa-border text-center">
+                        <div class="w-16 h-16 bg-jawa-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-seedling text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-jawa-brown mb-4">Ramah Lingkungan</h3>
+                        <p class="text-gray-700">Infrastruktur hemat energi yang selaras dengan filosofi Jawa tentang harmoni alam</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="jawa-border rounded-2xl overflow-hidden jawa-shadow">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e5c634b0-c8a3-42cb-aee1-0b18c063bd20.png" 
+                                 alt="Tim CleverjavaAI berpakaian tradisional Jawa modern dengan background teknologi dan ornament batik digital"
+                                 class="w-full h-auto"
+                                 onerror="this.style.backgroundColor='#D4AF37'">
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 font-playfair gradient-text">Tentang CleverjavaAI</h2>
+                        <p class="text-gray-700 mb-6 leading-relaxed">
+                            CleverjavaAI lahir dari semangat menggabungkan kemajuan teknologi kecerdasan buatan dengan kekayaan budaya Jawa Tengah. Kami percaya bahwa teknologi modern harus mampu menghormati dan melestarikan warisan budaya.
+                        </p>
+                        <p class="text-gray-700 mb-8 leading-relaxed">
+                            Dengan tim yang terdiri dari ahli AI dan budayawan Jawa, kami menciptakan solusi yang tidak hanya cerdas tetapi juga berkarakter dan berbudi pekerti luhur sesuai nilai-nilai Jawa.
+                        </p>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-jawa-gold rounded-full flex items-center justify-center">
+                                <i class="fas fa-heart text-white"></i>
+                            </div>
+                            <span class="text-jawa-brown font-semibold">100% Made in Java</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-jawa-dark text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-6">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3ca92173-71bc-49c0-b9b2-3ea005d6dce6.png" 
+                                 alt="Logo kecil CleverjavaAI dengan ikon wayang modern"
+                                 class="w-8 h-8 rounded"
+                                 onerror="this.style.backgroundColor='#D4AF37'">
+                            <span class="text-xl font-bold font-playfair">CleverjavaAI</span>
+                        </div>
+                        <p class="text-jawa-cream opacity-80">
+                            Menjembatani tradisi Jawa dengan inovasi teknologi masa depan.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Tautan Cepat</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Beranda</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Fitur</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Tentang</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Kontak</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Layanan</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">AI Consulting</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Pengembangan Custom</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Pelatihan AI</a></li>
+                            <li><a href="#" class="text-jawa-cream opacity-80 hover:opacity-100">Research & Development</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Kontak</h4>
+                        <div class="space-y-2">
+                            <p class="text-jawa-cream opacity-80">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                Semarang, Jawa Tengah
+                            </p>
+                            <p class="text-jawa-cream opacity-80">
+                                <i class="fas fa-envelope mr-2"></i>
+                                info@cleverjava.ai
+                            </p>
+                            <p class="text-jawa-cream opacity-80">
+                                <i class="fas fa-phone mr-2"></i>
+                                +62 xxx xxxx xxxx
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-jawa-gold border-opacity-20 mt-8 pt-8 text-center">
+                    <p class="text-jawa-cream opacity-70">
+                        © 2024 CleverjavaAI. Seluruh hak cipta dilindungi. Dibuat dengan ❤️ di Jawa Tengah
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chat-container" class="chat-container">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="chat-window w-full max-w-2xl mx-4">
+                <div class="chat-header text-white flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/56c69d10-6983-4600-8dd2-3349c3875ba0.png" 
+                             alt="Logo CleverjavaAI" 
+                             
