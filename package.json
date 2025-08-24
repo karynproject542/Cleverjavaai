@@ -1,0 +1,14 @@
+{
+  "name": "cleverjava-ai",
+  "version": "1.0.0",
+  "description": "Web AI bahasa Jawa",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.4.1"
+  },
+  "type": "module"
+}
